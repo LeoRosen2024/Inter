@@ -1,14 +1,14 @@
 # Inter
 
-Первая адаптивная версия панели Inter, подготовленная по дизайн-референсам.
+Erste responsive Version des Inter-Dashboards auf Basis der Designreferenzen.
 
-## Локальный запуск
+## Lokal starten
 
-Откройте `index.html` в браузере или запустите любой статический HTTP-сервер.
+`index.html` im Browser öffnen oder einen statischen HTTP-Server starten.
 
-## Развёртывание
+## Deployment
 
-Проект не требует сборки и может быть опубликован напрямую через Cloudflare Pages.
+Das Projekt benötigt keinen Build-Schritt und wird direkt über Cloudflare Pages veröffentlicht.
 
-- Build command: оставить пустым
+- Build command: leer lassen
 - Build output directory: `/`
