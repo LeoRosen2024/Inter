@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inter — рабочее пространство для создания и анализа коротких видео.">
+  <title>Inter — Панель управления</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">I</span><span>INTER</span></div>
+      <nav aria-label="Главная навигация">
+        <a class="nav-item active" href="#dashboard" aria-current="page"><span>⌂</span>Главная</a>
+        <a class="nav-item" href="#ideas"><span>◆</span>Залётные рилсы</a>
+        <a class="nav-item" href="#reels"><span>▦</span>Мои рилсы</a>
+        <a class="nav-item" href="#scripts"><span>▤</span>Сценарии</a>
+        <a class="nav-item" href="#competitors"><span>◉</span>Конкуренты</a>
+        <a class="nav-item" href="#settings"><span>⚙</span>Настройки</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="avatar">LR</div>
+        <div><strong>Leo Rosen</strong><small>Создатель</small></div>
+      </div>
+    </aside>
+
+    <main class="main" id="dashboard">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" aria-label="Открыть меню" aria-expanded="false">☰</button>
+        <div><p class="eyebrow">Рабочее пространство</p><h1>Добрый день, Leo</h1></div>
+        <button class="primary-button">+ Новый рилс</button>
+      </header>
+
+      <section class="hero">
+        <div><span class="badge">Тренд недели</span><h2>Создавайте рилсы, которые хочется досмотреть</h2><p>Идея, сценарий и аналитика — в одном понятном рабочем пространстве.</p></div>
+        <div class="hero-orb" aria-hidden="true"><span>▶</span></div>
+      </section>
+
+      <section class="stats" aria-label="Статистика">
+        <article class="stat-card"><div class="stat-label">Просмотры</div><strong>152K</strong><span class="positive">↑ 12,4%</span></article>
+        <article class="stat-card"><div class="stat-label">Лайки</div><strong>8,4K</strong><span class="positive">↑ 8,1%</span></article>
+        <article class="stat-card"><div class="stat-label">Комментарии</div><strong>1,2K</strong><span>за 30 дней</span></article>
+        <article class="stat-card"><div class="stat-label">Рост</div><strong>1,5%</strong><span class="positive">стабильно</span></article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel popular-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Подборка</p><h3>Популярный рилс</h3></div><button class="icon-button" aria-label="Другие варианты">•••</button></div>
+          <div class="video-placeholder"><div class="camera">●</div><button class="play-button" aria-label="Воспроизвести">▶</button><div class="video-glow"></div></div>
+          <h4>Вирусный рилс про тренды</h4><p>Узнайте, как удержать внимание зрителя за первые 3 секунды.</p>
+          <div class="tags"><span>Тренды</span><span>Советы</span><span>30 сек.</span></div>
+        </article>
+
+        <article class="panel script-panel" id="scripts">
+          <div class="panel-heading"><div><p class="eyebrow">Черновик</p><h3>Сценарий</h3></div><span class="status">Сохранено</span></div>
+          <div class="script-content"><span class="quote">“</span><p>Привет! Сегодня мы поговорим о трендах. Начни с яркого вовлечения и дальше веди зрителя по сценарию…</p></div>
+          <div class="progress-label"><span>Готовность</span><strong>72%</strong></div><div class="progress"><span></span></div>
+          <button class="secondary-button">Редактировать сценарий</button>
+        </article>
+
+        <article class="panel analytics-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Последние 30 дней</p><h3>Аналитика</h3></div><span class="positive">+12,4%</span></div>
+          <div class="chart" aria-label="График роста просмотров"><div class="chart-line"></div><i style="--x:5%;--y:78%"></i><i style="--x:28%;--y:60%"></i><i style="--x:49%;--y:67%"></i><i style="--x:72%;--y:38%"></i><i style="--x:94%;--y:16%"></i></div>
+          <div class="analytics-row"><span>Удержание</span><strong>68%</strong></div><div class="analytics-row"><span>Вовлечённость</span><strong>9,7%</strong></div><div class="analytics-row"><span>Сохранения</span><strong>2,1K</strong></div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
