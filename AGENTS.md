@@ -12,9 +12,10 @@
 1. Make changes locally in `C:\Users\0000\Projects\Inter`.
 2. Test the changes locally.
 3. Review `git status` and the intended diff.
-4. Commit and push to GitHub `main`.
-5. Let GitHub Actions deploy the exact `main` revision to the server.
-6. Verify the Docker container health and test the deployed page on the server.
+4. Commit and push the verified result directly to GitHub `main` when access permits.
+5. If direct push to `main` is unavailable, commit the work on a separate branch and open a Pull Request targeting `main`.
+6. Let the active deployment platform publish the exact `main` revision. Cloudflare Pages is the current platform; the prepared VPS workflow remains inactive until a VPS is connected.
+7. Verify the deployed public page after publication.
 
 ## Deployment architecture
 
@@ -28,5 +29,5 @@
 ## Verification
 
 - Before push: check the page, navigation, desktop layout, and mobile layout.
-- After deployment: require a healthy `inter-web` container and a successful HTTP response from the server.
+- After deployment: require a successful HTTP response from Cloudflare Pages. When VPS deployment is activated, also require a healthy `inter-web` container.
 - Report the local commit, GitHub push, deployment result, and public/test URL separately.
