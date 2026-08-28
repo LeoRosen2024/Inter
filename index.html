@@ -14,12 +14,12 @@
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="#dashboard"><span class="brand-symbol"><i></i><i></i><i></i></span><strong>inter<span>.</span></strong></a>
       <nav aria-label="Hauptnavigation">
-        <a class="nav-item active" href="#dashboard"><b>⌂</b><span>Übersicht</span></a>
-        <a class="nav-item" href="#popular"><b>◆</b><span>Trend-Reels</span></a>
-        <a class="nav-item" href="#my-reels" data-placeholder="Meine Reels"><b>▦</b><span>Meine Reels</span></a>
-        <a class="nav-item" href="#script"><b>▤</b><span>Skripte</span></a>
-        <a class="nav-item" href="#competitors" data-placeholder="Wettbewerber"><b>◉</b><span>Wettbewerber</span></a>
-        <a class="nav-item" href="#settings" data-placeholder="Einstellungen"><b>⚙</b><span>Einstellungen</span></a>
+        <a class="nav-item active" href="#dashboard" data-view="dashboard"><b>⌂</b><span>Übersicht</span></a>
+        <a class="nav-item" href="#trends" data-view="trends"><b>◆</b><span>Trend-Reels</span></a>
+        <a class="nav-item" href="#reels" data-view="reels"><b>▦</b><span>Meine Reels</span></a>
+        <a class="nav-item" href="#scripts" data-view="scripts"><b>▤</b><span>Skripte</span></a>
+        <a class="nav-item" href="#competitors" data-view="competitors"><b>◉</b><span>Wettbewerber</span></a>
+        <a class="nav-item" href="#settings" data-view="settings"><b>⚙</b><span>Einstellungen</span></a>
       </nav>
       <div class="profile"><span>LR</span><div><strong>Leo Rosen</strong><small>Creator Account</small></div></div>
     </aside>
@@ -27,7 +27,7 @@
 
     <main>
       <header class="mobile-header"><button id="menuButton" aria-label="Menü öffnen" aria-expanded="false">☰</button><a href="#dashboard"><span class="brand-symbol"><i></i><i></i><i></i></span><strong>inter<span>.</span></strong></a><button data-new>＋</button></header>
-      <section class="cards" aria-label="Reels Dashboard">
+      <section class="cards" id="dashboardView" aria-label="Reels Dashboard">
         <article class="card popular" id="popular">
           <header><div><small>ENTDECKEN</small><h1>Beliebte Reels</h1></div><button data-toast="Alle Trend-Reels werden bald verfügbar">Alle ansehen →</button></header>
           <label class="reel-search"><span>⌕</span><input id="reelSearch" type="search" placeholder="20 Reels durchsuchen ..." autocomplete="off"></label>
@@ -58,6 +58,7 @@
           <button class="analytics-link" data-toast="Detailanalyse wird vorbereitet">Alle Statistiken ansehen →</button>
         </article>
       </section>
+      <section class="view-root" id="viewRoot" hidden aria-live="polite"></section>
     </main>
   </div>
 
