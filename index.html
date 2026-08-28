@@ -30,13 +30,9 @@
       <section class="cards" aria-label="Reels Dashboard">
         <article class="card popular" id="popular">
           <header><div><small>ENTDECKEN</small><h1>Beliebte Reels</h1></div><button data-toast="Alle Trend-Reels werden bald verfügbar">Alle ansehen →</button></header>
-          <div class="reel-list">
-            <button class="reel-row selected" data-reel="Hook in 3 Sekunden" data-views="42,8K"><span class="thumb t1"><i></i></span><span><strong>Hook in 3 Sekunden</strong><small>@creatorlab · 00:24</small></span><em><b>98%</b><i></i></em></button>
-            <button class="reel-row" data-reel="Storytelling-Formel" data-views="37,2K"><span class="thumb t2"><i></i></span><span><strong>Storytelling-Formel</strong><small>@socialtips · 00:31</small></span><em><b>91%</b><i></i></em></button>
-            <button class="reel-row" data-reel="Content ohne Stress" data-views="29,4K"><span class="thumb t3"><i></i></span><span><strong>Content ohne Stress</strong><small>@reelstudio · 00:18</small></span><em><b>86%</b><i></i></em></button>
-            <button class="reel-row" data-reel="Die perfekte Caption" data-views="24,9K"><span class="thumb t4"><i></i></span><span><strong>Die perfekte Caption</strong><small>@marketingde · 00:27</small></span><em><b>79%</b><i></i></em></button>
-            <button class="reel-row" data-reel="Mehr Reichweite" data-views="18,7K"><span class="thumb t5"><i></i></span><span><strong>Mehr Reichweite</strong><small>@growdaily · 00:22</small></span><em><b>72%</b><i></i></em></button>
-          </div>
+          <label class="reel-search"><span>⌕</span><input id="reelSearch" type="search" placeholder="20 Reels durchsuchen ..." autocomplete="off"></label>
+          <div class="reel-list" id="reelList" aria-live="polite"></div>
+          <p class="empty-state" id="emptyState">Kein Reel gefunden.</p>
           <div class="selected-reel"><span>Ausgewählt</span><strong id="selectedTitle">Hook in 3 Sekunden</strong><small><b id="selectedViews">42,8K</b> Aufrufe</small></div>
         </article>
 
