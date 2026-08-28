@@ -1,0 +1,17 @@
+:80 {
+  root * /srv
+  encode zstd gzip
+  file_server
+
+  header {
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    -Server
+  }
+
+  log {
+    output stdout
+    format console
+  }
+}

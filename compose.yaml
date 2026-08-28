@@ -1,0 +1,11 @@
+name: inter
+
+services:
+  web:
+    container_name: inter-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${INTER_HTTP_PORT:-8080}:80"
