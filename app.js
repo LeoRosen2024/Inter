@@ -1,16 +1,16 @@
-const sidebar = document.querySelector('#sidebar');
-const menuButton = document.querySelector('#menuButton');
-
-menuButton.addEventListener('click', () => {
-  const isOpen = sidebar.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-});
-
-document.querySelectorAll('.nav-item').forEach((item) => {
-  item.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach((link) => link.classList.remove('active'));
-    item.classList.add('active');
-    sidebar.classList.remove('open');
-    menuButton.setAttribute('aria-expanded', 'false');
-  });
-});
+const sidebar=document.querySelector('#sidebar'),menu=document.querySelector('#menu'),backdrop=document.querySelector('#backdrop'),modal=document.querySelector('#modal'),toast=document.querySelector('#toast');let toastTimer;
+function toggleMenu(force){const open=typeof force==='boolean'?force:!sidebar.classList.contains('open');sidebar.classList.toggle('open',open);backdrop.classList.toggle('visible',open);menu.setAttribute('aria-expanded',String(open));document.body.style.overflow=open?'hidden':''}
+function notify(message){clearTimeout(toastTimer);toast.querySelector('p').textContent=message;toast.classList.add('visible');toastTimer=setTimeout(()=>toast.classList.remove('visible'),2600)}
+menu.addEventListener('click',()=>toggleMenu());backdrop.addEventListener('click',()=>toggleMenu(false));
+document.querySelectorAll('.nav-item').forEach(item=>item.addEventListener('click',event=>{const target=document.querySelector(item.getAttribute('href'));if(!target){event.preventDefault();notify(`${item.dataset.name} wird als Nächstes eingerichtet`)}document.querySelectorAll('.nav-item').forEach(link=>link.classList.remove('active'));item.classList.add('active');toggleMenu(false)}));
+document.querySelectorAll('[data-new]').forEach(button=>button.addEventListener('click',()=>modal.showModal()));
+document.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',()=>{modal.close();notify(`${button.dataset.choice} wurde ausgewählt`)}));
+modal.addEventListener('click',event=>{if(event.target===modal)modal.close()});
+document.querySelectorAll('[data-toast]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();notify(button.dataset.toast)}));
+document.querySelector('[data-template]').addEventListener('click',()=>{modal.showModal();notify('Trend-Vorlage ist bereit')});
+document.querySelector('[data-edit]').addEventListener('click',()=>{const box=document.querySelector('.script-box');box.contentEditable='true';box.focus();notify('Du kannst den Text jetzt direkt bearbeiten')});
+document.querySelector('[data-play]').addEventListener('click',event=>{const button=event.currentTarget,playing=button.classList.toggle('playing');button.textContent=playing?'Ⅱ':'▶';notify(playing?'Vorschau wird abgespielt':'Vorschau pausiert')});
+const periodData={7:['38.920','2.146','327','+0,4%'],30:['152.480','8.439','1.284','+1,5%'],90:['428.760','24.108','3.715','+4,8%']};
+document.querySelectorAll('[data-period]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-period]').forEach(item=>item.classList.remove('active'));button.classList.add('active');periodData[button.dataset.period].forEach((value,index)=>document.querySelector(`[data-stat="${index}"]`).textContent=value)}));
+const search=document.querySelector('#search');document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==='k'){event.preventDefault();search.focus()}if(event.key==='Escape')toggleMenu(false)});search.addEventListener('keydown',event=>{if(event.key==='Enter'&&search.value.trim()){notify(`Suche nach „${search.value.trim()}“`);search.blur()}});
+document.querySelectorAll('[data-go]').forEach(button=>button.addEventListener('click',()=>document.querySelector(`#${button.dataset.go}`).scrollIntoView({behavior:'smooth'})));

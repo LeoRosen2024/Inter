@@ -1,72 +1,84 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Inter — der intelligente Arbeitsbereich für die Erstellung und Analyse von Reels.">
-  <title>Inter — Reels Dashboard</title>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Inter Reels – Ideen, Skripte und Performance für deine Kurzvideos.">
+  <title>Inter Reels — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand"><span class="brand-mark">I</span><span>INTER</span></div>
-      <nav aria-label="Hauptnavigation">
-        <a class="nav-item active" href="#dashboard" aria-current="page"><span>⌂</span>Übersicht</a>
-        <a class="nav-item" href="#ideas"><span>◆</span>Trend-Reels</a>
-        <a class="nav-item" href="#reels"><span>▦</span>Meine Reels</a>
-        <a class="nav-item" href="#scripts"><span>▤</span>Skripte</a>
-        <a class="nav-item" href="#competitors"><span>◉</span>Wettbewerber</a>
-        <a class="nav-item" href="#settings"><span>⚙</span>Einstellungen</a>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="avatar">LR</div>
-        <div><strong>Leo Rosen</strong><small>Creator</small></div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#dashboard"><span class="brand-mark"><i></i><i></i><i></i></span>inter<span>.</span></a>
+    <nav aria-label="Hauptnavigation">
+      <p>ARBEITSBEREICH</p>
+      <a class="nav-item active" href="#dashboard" data-name="Übersicht"><b>▦</b>Übersicht</a>
+      <a class="nav-item" href="#trends" data-name="Trend-Reels"><b>✦</b>Trend-Reels <small>12</small></a>
+      <a class="nav-item" href="#reels" data-name="Meine Reels"><b>▣</b>Meine Reels</a>
+      <a class="nav-item" href="#scripts" data-name="Skripte"><b>▤</b>Skripte</a>
+      <p>ANALYSE</p>
+      <a class="nav-item" href="#competitors" data-name="Wettbewerber"><b>◉</b>Wettbewerber</a>
+      <a class="nav-item" href="#settings" data-name="Einstellungen"><b>⚙</b>Einstellungen</a>
+    </nav>
+    <div class="creator-tip"><span>💡</span><strong>Creator-Tipp</strong><p>Die ersten 3 Sekunden entscheiden über deinen Erfolg.</p><button data-toast="Tipp gespeichert">Tipp speichern</button></div>
+    <button class="profile" data-toast="Profilbereich wird vorbereitet"><span>LR</span><div><strong>Leo Rosen</strong><small>Creator Account</small></div><b>›</b></button>
+  </aside>
+  <button class="backdrop" id="backdrop" aria-label="Menü schließen"></button>
+
+  <main id="dashboard">
+    <header class="topbar">
+      <button class="menu" id="menu" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+      <div class="welcome"><p>Freitag, 28. August</p><h1>Guten Tag, Leo 👋</h1></div>
+      <div class="top-actions"><label class="search">⌕<input id="search" type="search" placeholder="Suchen ..."><kbd>⌘ K</kbd></label><button class="bell" data-toast="Du hast 3 neue Benachrichtigungen">♢<i></i></button><button class="primary" data-new>＋ Neues Reel</button></div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy"><span class="badge"><i></i>Trend der Woche</span><h2>Mach aus Ideen<br><em>Reels, die wirken.</em></h2><p>Entdecke aktuelle Trends, entwickle starke Skripte und behalte deine Performance im Blick.</p><div><button class="hero-button" data-new>Reel erstellen →</button><button class="hero-link" data-go="trends">Trends entdecken →</button></div></div>
+      <div class="hero-art" aria-hidden="true"><div class="phone"><div class="phone-head"></div><div class="preview"><span></span><button>▶</button></div><i></i><i></i></div><div class="float one"><b>↗</b><span><strong>+24%</strong><small>Reichweite</small></span></div><div class="float two"><b>♥</b><span><strong>8,4K</strong><small>Likes</small></span></div></div>
+    </section>
+
+    <section class="performance">
+      <div class="section-head"><div><p>DEINE PERFORMANCE</p><h2>Auf einen Blick</h2></div><div class="period"><button data-period="7">7 Tage</button><button class="active" data-period="30">30 Tage</button><button data-period="90">90 Tage</button></div></div>
+      <div class="stats">
+        <article><span class="stat-icon purple">◉</span><div><small>Aufrufe</small><strong data-stat="0">152.480</strong><em>↗ 12,4% <i>vs. vorher</i></em></div><b class="spark purple"></b></article>
+        <article><span class="stat-icon pink">♡</span><div><small>Likes</small><strong data-stat="1">8.439</strong><em>↗ 8,1% <i>vs. vorher</i></em></div><b class="spark pink"></b></article>
+        <article><span class="stat-icon blue">◌</span><div><small>Kommentare</small><strong data-stat="2">1.284</strong><em>↗ 5,7% <i>vs. vorher</i></em></div><b class="spark blue"></b></article>
+        <article><span class="stat-icon orange">↗</span><div><small>Follower-Wachstum</small><strong data-stat="3">+1,5%</strong><em class="growth">+428 <i>neue Follower</i></em></div><b class="spark orange"></b></article>
       </div>
-    </aside>
+    </section>
 
-    <main class="main" id="dashboard">
-      <header class="topbar">
-        <button class="menu-button" id="menuButton" aria-label="Menü öffnen" aria-expanded="false">☰</button>
-        <div><p class="eyebrow">Arbeitsbereich</p><h1>Guten Tag, Leo</h1></div>
-        <button class="primary-button">+ Neues Reel</button>
-      </header>
+    <section class="dashboard-grid" id="trends">
+      <article class="panel featured">
+        <div class="panel-head"><div><p>FÜR DICH AUSGEWÄHLT</p><h2>Reel der Woche</h2></div><button data-toast="Weitere Optionen folgen">•••</button></div>
+        <div class="featured-body"><div class="cover"><span class="trending">TRENDING</span><div class="person"></div><button class="play" data-play>▶</button><small>00:27</small></div><div class="reel-info"><div class="tags"><span>Trends</span><span>Tipps</span></div><h3>3 Hooks, die deine Zuschauer sofort fesseln</h3><p>Diese Einstiege sorgen dafür, dass deine Zuschauer nicht weiterscrollen.</p><div class="metrics"><span>◉ 42,8K</span><span>♡ 3,2K</span><span>◌ 186</span></div><button class="outline" data-template>Als Vorlage verwenden →</button></div></div>
+      </article>
 
-      <section class="hero">
-        <div><span class="badge">Trend der Woche</span><h2>Reels erstellen, die man bis zum Ende sehen will</h2><p>Ideen, Skripte und Analysen — übersichtlich an einem Ort.</p></div>
-        <div class="hero-orb" aria-hidden="true"><span>▶</span></div>
-      </section>
+      <article class="panel script" id="scripts">
+        <div class="panel-head"><div><p>DEIN ENTWURF</p><h2>Aktuelles Skript</h2></div><span class="saved"><i></i>Gespeichert</span></div>
+        <div class="script-box"><b>01</b><div><small>HOOK</small><p>„Du machst diesen einen Fehler bei deinen Reels – und merkst es nicht einmal ...“</p></div></div>
+        <div class="progress-label"><span>Fortschritt</span><strong>72%</strong></div><div class="progress"><i></i></div><div class="script-meta"><span>◷ ca. 28 Sek.</span><span>▤ 86 Wörter</span></div><button class="dark" data-edit>Skript weiterbearbeiten →</button>
+      </article>
 
-      <section class="stats" aria-label="Statistik">
-        <article class="stat-card"><div class="stat-label">Aufrufe</div><strong>152K</strong><span class="positive">↑ 12,4%</span></article>
-        <article class="stat-card"><div class="stat-label">Likes</div><strong>8,4K</strong><span class="positive">↑ 8,1%</span></article>
-        <article class="stat-card"><div class="stat-label">Kommentare</div><strong>1,2K</strong><span>in 30 Tagen</span></article>
-        <article class="stat-card"><div class="stat-label">Wachstum</div><strong>1,5%</strong><span class="positive">stabil</span></article>
-      </section>
+      <article class="panel analytics">
+        <div class="panel-head"><div><p>LETZTE 30 TAGE</p><h2>Entwicklung</h2></div><button class="select" data-toast="Zeitraum: 30 Tage">30 Tage⌄</button></div>
+        <div class="chart-total"><span>Gesamtaufrufe<strong>152.480</strong></span><b>↗ 12,4%</b></div>
+        <div class="chart"><span class="tooltip">24,6K<small>24. Aug.</small></span><svg viewBox="0 0 460 155" preserveAspectRatio="none"><defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6c5ce7" stop-opacity=".25"/><stop offset="1" stop-color="#6c5ce7" stop-opacity="0"/></linearGradient></defs><path class="area" d="M0 135C38 130 52 112 82 118S125 92 150 103S194 72 224 87S270 64 295 71S337 45 365 57S413 29 460 20V155H0Z"/><path class="line" d="M0 135C38 130 52 112 82 118S125 92 150 103S194 72 224 87S270 64 295 71S337 45 365 57S413 29 460 20"/></svg><div><span>01. Aug.</span><span>08. Aug.</span><span>16. Aug.</span><span>24. Aug.</span><span>Heute</span></div></div>
+        <button class="panel-link" data-toast="Detailanalyse wird vorbereitet">Alle Statistiken ansehen →</button>
+      </article>
+    </section>
 
-      <section class="dashboard-grid">
-        <article class="panel popular-panel">
-          <div class="panel-heading"><div><p class="eyebrow">Auswahl</p><h3>Top-Reel</h3></div><button class="icon-button" aria-label="Weitere Optionen">•••</button></div>
-          <div class="video-placeholder"><div class="camera">●</div><button class="play-button" aria-label="Abspielen">▶</button><div class="video-glow"></div></div>
-          <h4>Virales Reel über Trends</h4><p>So fesselst du die Aufmerksamkeit in den ersten drei Sekunden.</p>
-          <div class="tags"><span>Trends</span><span>Tipps</span><span>30 Sek.</span></div>
-        </article>
+    <section class="recent" id="reels"><div class="section-head"><div><p>DEINE INHALTE</p><h2>Zuletzt bearbeitet</h2></div><button data-toast="Alle Reels werden bald verfügbar">Alle Reels →</button></div><div class="reel-list">
+      <article><div class="thumb violet">▶</div><div><strong>5 Content-Ideen für diese Woche</strong><small>Heute, 10:24 · Entwurf</small></div><span class="draft">Entwurf</span><p>— Aufrufe　 — Likes</p><button>•••</button></article>
+      <article><div class="thumb sand">▶</div><div><strong>Warum dein Hook nicht funktioniert</strong><small>Gestern, 18:42 · Veröffentlicht</small></div><span class="live">Online</span><p>18,2K Aufrufe　 1.309 Likes</p><button>•••</button></article>
+      <article><div class="thumb slate">▶</div><div><strong>Behind the Scenes: Mein Setup</strong><small>25. Aug., 14:10 · Veröffentlicht</small></div><span class="live">Online</span><p>31,7K Aufrufe　 2.408 Likes</p><button>•••</button></article>
+    </div></section>
+    <footer><span>© 2026 Inter Reels</span><div><a href="#privacy">Datenschutz</a><a href="#help">Hilfe & Support</a></div></footer>
+  </main>
+</div>
 
-        <article class="panel script-panel" id="scripts">
-          <div class="panel-heading"><div><p class="eyebrow">Entwurf</p><h3>Skript</h3></div><span class="status">Gespeichert</span></div>
-          <div class="script-content"><span class="quote">“</span><p>Hallo! Heute sprechen wir über Trends. Starte mit einem starken Hook und führe dein Publikum durch die Story …</p></div>
-          <div class="progress-label"><span>Fortschritt</span><strong>72%</strong></div><div class="progress"><span></span></div>
-          <button class="secondary-button">Skript bearbeiten</button>
-        </article>
-
-        <article class="panel analytics-panel">
-          <div class="panel-heading"><div><p class="eyebrow">Letzte 30 Tage</p><h3>Analyse</h3></div><span class="positive">+12,4%</span></div>
-          <div class="chart" aria-label="Diagramm zur Entwicklung der Aufrufe"><div class="chart-line"></div><i style="--x:5%;--y:78%"></i><i style="--x:28%;--y:60%"></i><i style="--x:49%;--y:67%"></i><i style="--x:72%;--y:38%"></i><i style="--x:94%;--y:16%"></i></div>
-          <div class="analytics-row"><span>Wiedergabedauer</span><strong>68%</strong></div><div class="analytics-row"><span>Interaktionsrate</span><strong>9,7%</strong></div><div class="analytics-row"><span>Gespeichert</span><strong>2,1K</strong></div>
-        </article>
-      </section>
-    </main>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+<dialog id="modal"><form method="dialog"><button class="close" value="cancel">×</button><span class="modal-icon">✦</span><p>NEUES PROJEKT</p><h2>Was möchtest du erstellen?</h2><small>Wähle einen Startpunkt für dein nächstes Reel.</small><div class="choices"><button type="button" data-choice="Trend-Vorlage"><span>↗</span><strong>Trend-Vorlage</strong><small>Aktuelles Format verwenden</small></button><button type="button" data-choice="Leeres Skript"><span>▤</span><strong>Leeres Skript</strong><small>Eigene Idee entwickeln</small></button><button type="button" data-choice="KI-Assistent"><span>✦</span><strong>KI-Assistent</strong><small>Ideen vorschlagen lassen</small></button></div></form></dialog>
+<div class="toast" id="toast" role="status"><span>✓</span><p></p></div>
+<script src="app.js"></script>
+</body></html>
