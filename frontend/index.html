@@ -21,7 +21,7 @@
         <a class="nav-item" href="#competitors" data-view="competitors"><b>◉</b><span>Wettbewerber</span></a>
         <a class="nav-item" href="#settings" data-view="settings"><b>⚙</b><span>Einstellungen</span></a>
       </nav>
-      <div class="profile"><span>LR</span><div><strong>Leo Rosen</strong><small>Creator Account</small></div></div>
+      <div class="profile"><span>LR</span><div><strong>Leo Rosen</strong><small id="apiStatus">Verbindung wird geprüft …</small></div></div>
     </aside>
     <button class="backdrop" id="backdrop" aria-label="Menü schließen"></button>
 
@@ -64,5 +64,7 @@
 
   <dialog id="modal"><form method="dialog"><button class="close" value="cancel">×</button><span class="modal-icon">✦</span><small>NEUES PROJEKT</small><h2>Was möchtest du erstellen?</h2><p>Wähle einen Startpunkt für dein nächstes Reel.</p><div class="options"><button type="button" data-choice="Trend-Vorlage">↗<strong>Trend-Vorlage</strong><span>Aktuelles Format verwenden</span></button><button type="button" data-choice="Leeres Skript">▤<strong>Leeres Skript</strong><span>Eigene Idee entwickeln</span></button><button type="button" data-choice="KI-Assistent">✦<strong>KI-Assistent</strong><span>Ideen vorschlagen lassen</span></button></div></form></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"><span>✓</span><p></p></div>
+  <script src="config.js"></script>
+  <script src="api.js"></script>
   <script src="app.js"></script>
 </body></html>

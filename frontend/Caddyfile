@@ -1,7 +1,15 @@
 :80 {
-  root * /srv
   encode zstd gzip
-  file_server
+
+  handle /api/* {
+    reverse_proxy api:8000
+  }
+
+  handle {
+    root * /srv
+    try_files {path} /index.html
+    file_server
+  }
 
   header {
     X-Content-Type-Options "nosniff"
@@ -15,3 +23,4 @@
     format console
   }
 }
+

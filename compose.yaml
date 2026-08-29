@@ -1,11 +1,100 @@
 name: inter
 
 services:
+  db:
+    container_name: inter-db
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-inter}
+      POSTGRES_USER: ${POSTGRES_USER:-inter}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-inter-local-change-me}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-inter} -d ${POSTGRES_DB:-inter}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  migrate:
+    container_name: inter-migrate
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.bootstrap"]
+    environment: &backend-environment
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-inter}:${POSTGRES_PASSWORD:-inter-local-change-me}@db:5432/${POSTGRES_DB:-inter}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://127.0.0.1:8080,http://localhost:8080,https://inter-1xr.pages.dev}
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
+      APIFY_ENABLED: ${APIFY_ENABLED:-false}
+      APIFY_TOKEN: ${APIFY_TOKEN:-}
+      APIFY_ACTOR_ID: ${APIFY_ACTOR_ID:-}
+      MEDIA_ROOT: /data/media
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - media-data:/data/media
+    networks:
+      - backend
+    restart: "no"
+
+  api:
+    container_name: inter-api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment: *backend-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - media-data:/data/media
+    networks:
+      - edge
+      - backend
+
+  worker:
+    container_name: inter-worker
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["python", "-m", "app.worker"]
+    restart: unless-stopped
+    environment: *backend-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - media-data:/data/media
+    networks:
+      - backend
+
   web:
     container_name: inter-web
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - "${INTER_HTTP_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - edge
+
+volumes:
+  postgres-data:
+  media-data:
+
+networks:
+  edge:
+  backend:
+    internal: true
+

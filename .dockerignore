@@ -1,9 +1,0 @@
-.git
-.github
-.env
-.env.*
-AGENTS.md
-DEPLOYMENT.md
-README.md
-compose.yaml
-design-reference*.png

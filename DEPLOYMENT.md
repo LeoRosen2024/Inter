@@ -1,43 +1,50 @@
 # Inter deployment
 
-The application is served by Caddy in a dedicated Docker container. The default test address is:
+## Current environments
 
-```text
-http://SERVER_IP:8080
-```
+- Cloudflare Pages publishes only `frontend/` and therefore runs in demo mode until a public API is connected.
+- The complete application runs locally at `http://127.0.0.1:8080` through Docker Compose.
+- A future VPS checkout remains `/opt/inter` and uses the same Compose stack.
+
+## One-time local setup
+
+1. Start Docker Desktop.
+2. Copy `.env.example` to `.env`.
+3. Set a unique `POSTGRES_PASSWORD`.
+4. Run `docker compose up -d --build`.
+5. Verify the page, `/api/v1/health/ready`, and `/api/docs` through port `8080`.
+
+Do not commit `.env`. Do not use `docker compose down -v` unless the database and media volumes are intentionally being deleted.
 
 ## Server prerequisites
 
-- A Linux server with a public IP address
-- SSH access for a non-root deployment user
-- Git
-- Docker Engine with the Compose plugin
-- Firewall access to TCP port `8080` during the pre-domain stage
+- Linux VPS with SSH access for a non-root deployment user.
+- Git and Docker Engine with the Compose plugin.
+- `/opt/inter` owned by the deployment user.
+- Read-only GitHub deploy key for `LeoRosen2024/Inter`.
+- Server-only `/opt/inter/.env` with a strong database password and allowed origins.
 
-## One-time server setup
+Apify secrets belong only in `/opt/inter/.env` or a server secret manager:
 
-1. Create `/opt/inter` and give the deployment user ownership.
-2. Add a read-only GitHub deploy key for `LeoRosen2024/Inter` to the server.
-3. Clone the repository into `/opt/inter`.
-4. Make `scripts/deploy.sh` executable.
-5. Run `docker compose up -d --build` once.
+```text
+APIFY_ENABLED=true
+APIFY_TOKEN=...
+APIFY_ACTOR_ID=...
+```
 
-## GitHub Actions secrets
+## GitHub Actions deployment
 
-Configure these repository environment secrets for the `production` environment:
+The existing deployment workflow is inactive until repository variable `DEPLOY_ENABLED=true` is set. Configure these `production` environment secrets first:
 
-- `DEPLOY_HOST`: server IP or hostname
-- `DEPLOY_PORT`: SSH port, normally `22`
-- `DEPLOY_USER`: non-root deployment user
-- `DEPLOY_SSH_KEY`: private SSH key used only by GitHub Actions to connect to the server
-- `DEPLOY_KNOWN_HOSTS`: verified SSH host-key line for the server
+- `DEPLOY_HOST`
+- `DEPLOY_PORT`
+- `DEPLOY_USER`
+- `DEPLOY_SSH_KEY`
+- `DEPLOY_KNOWN_HOSTS`
 
-The matching public key must be present in the deployment user's `~/.ssh/authorized_keys` on the server.
+Every enabled `main` deployment performs a fast-forward-only pull, builds the images, applies migrations, recreates the project containers and verifies both frontend and API readiness.
 
-After the first successful manual deployment, set the repository variable
-`DEPLOY_ENABLED` to `true`. Until then, pushes remain safe and the deploy job is
-skipped instead of failing with missing server credentials.
+## Backups
 
-## Normal workflow
+Before a destructive migration or Docker-volume change, back up PostgreSQL and the `media-data` volume. Normal deployments must never remove either volume.
 
-Every push to `main` runs `.github/workflows/deploy.yml`. The server performs a fast-forward-only pull, rebuilds `inter-web`, and verifies `http://127.0.0.1:8080/` before the workflow succeeds.
