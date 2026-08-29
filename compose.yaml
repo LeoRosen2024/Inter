@@ -66,6 +66,8 @@ services:
       dockerfile: Dockerfile
     command: ["python", "-m", "app.worker"]
     restart: unless-stopped
+    healthcheck:
+      disable: true
     environment: *backend-environment
     depends_on:
       migrate:
@@ -97,4 +99,3 @@ networks:
   edge:
   backend:
     internal: true
-
