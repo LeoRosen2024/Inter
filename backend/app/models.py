@@ -59,6 +59,7 @@ class Reel(TimestampMixin, table=True):
     scope: str = Field(default="trending", max_length=32, index=True)
     title: str = Field(max_length=255, index=True)
     description: str = Field(default="", sa_column=Column(Text, nullable=False))
+    transcript: str = Field(default="", sa_column=Column(Text, nullable=False))
     status: str = Field(default="online", max_length=32, index=True)
     source_handle: str = Field(default="", max_length=128, index=True)
     source_url: str | None = Field(default=None, sa_column=Column(Text, nullable=True))

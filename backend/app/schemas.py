@@ -85,6 +85,7 @@ class ReelScriptUpdate(ApiModel):
 
 class ReelDetail(ReelSummary):
     description: str
+    transcript: str
     source_url: str | None
     media_url: str | None
     tags: list[str] = Field(default_factory=list)

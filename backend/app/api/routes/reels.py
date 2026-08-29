@@ -38,6 +38,7 @@ def build_detail(reel: Reel, session: Session) -> ReelDetail:
     return ReelDetail(
         **ReelSummary.model_validate(reel).model_dump(),
         description=reel.description,
+        transcript=reel.transcript,
         source_url=reel.source_url,
         media_url=reel.media_url,
         tags=tags,

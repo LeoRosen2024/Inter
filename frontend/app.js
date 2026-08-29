@@ -61,17 +61,22 @@ function reelDetailTemplate(record,title,views){
   const viewsText=record?formatCount(record.views_count):(views||'42,8K'),likesText=record?formatCount(record.likes_count):'3,2K',commentsText=record?formatCount(record.comments_count):'1,2K';
   const growth=record?Number(record.growth_percent||0).toLocaleString('de-DE',{maximumFractionDigits:1}):'1,5';
   return `<div class="page-view detail-page" data-reel-id="${escapeHtml(record?.id||'')}" data-version="${record?.version||1}" data-script-version="${scriptRecord?.version||1}" data-original-title="${escapeHtml(displayTitle)}" data-source-title="${escapeHtml(title)}"><div class="detail-toolbar"><button class="back-button" data-detail-back>← Zurück</button><span>REEL-DETAILS</span><button class="detail-edit" data-detail-edit>Bearbeiten</button><div class="detail-save-actions" hidden><button data-detail-cancel>Abbrechen</button><button class="save" data-detail-save>Speichern</button></div></div><section class="detail-grid"><article class="detail-card detail-video"><header><h1>Beliebtes Reel</h1><span class="detail-status">${escapeHtml(statusLabel(record?.status||'online'))}</span></header><div class="detail-video-frame"><div class="detail-person"></div><button class="detail-play" data-detail-play>▶</button><span>${formatDuration(record?.duration_seconds||30)}</span></div><div class="detail-video-copy"><h2 data-edit-field="title">${escapeHtml(displayTitle)}</h2><p data-edit-field="description">${escapeHtml(description)}</p><div><span>Trends</span><span>Tipps</span><strong>◉ ${viewsText}　♡ ${likesText}</strong></div></div></article><article class="detail-card detail-script"><header><h1>Skript</h1><span class="saved"><i></i>Gespeichert</span></header><div class="detail-script-copy"><span>“</span><p data-edit-field="script">${escapeHtml(script)}</p></div><div class="detail-script-bottom"><small>FORTSCHRITT <b>72%</b></small><div><i></i></div><button data-detail-edit>Bearbeiten</button></div></article><article class="detail-card detail-analytics"><header><h1>Analyse</h1><span>30 Tage</span></header><div class="detail-metrics"><div><span>Aufrufe</span><strong>${viewsText}</strong></div><div><span>Likes</span><strong>${likesText}</strong></div><div><span>Kommentare</span><strong>${commentsText}</strong></div><div><span>Wachstum</span><strong>↑ ${growth}%</strong></div></div><div class="detail-chart"><svg viewBox="0 0 500 110" preserveAspectRatio="none"><path d="M0 96L42 90L75 75L108 81L142 64L172 72L215 51L250 60L286 42L320 50L355 31L391 39L430 20L462 25L500 9"/></svg></div></article></section></div>`
+}function mountTranscriptControl(){
+  const card=viewRoot.querySelector('.detail-video-copy');
+  if(!card||card.querySelector('[data-action="transcript"]'))return;
+  const transcript=activeReelRecord?.transcript||'';
+  card.insertAdjacentHTML('beforeend',`<button class="transcript-button" data-action="transcript">${transcript?'Transcript aktualisieren':'Получить transcript'}</button>${transcript?`<div class="detail-transcript"><strong>Transcript</strong><p>${escapeHtml(transcript)}</p></div>`:''}`);
 }
 async function openReel(reelId,title,views,returnView='dashboard'){
   detailReturnView=returnView;
   activeReelRecord=reelId?reelRecordCache.get(reelId)||null:null;
   sessionStorage.setItem('inter:lastReel',JSON.stringify({reelId,title,views,returnView}));
-  dashboardView.hidden=true;viewRoot.hidden=false;viewRoot.innerHTML=reelDetailTemplate(activeReelRecord,title,views);
+  dashboardView.hidden=true;viewRoot.hidden=false;viewRoot.innerHTML=reelDetailTemplate(activeReelRecord,title,views);mountTranscriptControl();
   document.querySelectorAll('.nav-item').forEach(link=>link.classList.remove('active'));history.replaceState(null,'','#reel');toggleMenu(false);
   if(apiConnected&&reelId){
     try{
       const record=await api.getReel(reelId);reelRecordCache.set(record.id,record);activeReelRecord=record;
-      if(location.hash==='#reel'&&viewRoot.querySelector('.detail-page'))viewRoot.innerHTML=reelDetailTemplate(record,title,views);
+      if(location.hash==='#reel'&&viewRoot.querySelector('.detail-page')){viewRoot.innerHTML=reelDetailTemplate(record,title,views);mountTranscriptControl()}
     }catch{notify('Reel konnte nicht aus der Datenbank geladen werden')}
   }
 }
@@ -106,7 +111,9 @@ async function startApifyImport(){
     }
     notify('Import läuft länger als erwartet – Liste wird nach Abschluss aktualisiert')
   }catch{notify('Apify-Import konnte nicht gestartet werden')}
-}
+}async function requestTranscript(){
+  if(!apiConnected||!activeReelRecord?.source_url){notify('Für diesen Reel ist keine Quelle hinterlegt');return}
+  try{const job=await api.createApifyImport({source_url:activeReelRecord.source_url,limit:1,actor_input:{username:[activeReelRecord.source_url],resultsLimit:1,includeTranscript:true,includeDownloadedVideo:false}});notify('Transcript wird geladen …');for(let i=0;i<36;i++){await new Promise(r=>setTimeout(r,3000));const current=await api.getImport(job.id);if(current.status==='succeeded'){activeReelRecord=await api.getReel(activeReelRecord.id);reelRecordCache.set(activeReelRecord.id,activeReelRecord);viewRoot.innerHTML=reelDetailTemplate(activeReelRecord,activeReelRecord.title,'');mountTranscriptControl();notify('Transcript wurde geladen');return}if(current.status==='failed'){notify('Transcript konnte nicht geladen werden');return}}}catch{notify('Transcript konnte nicht angefordert werden')}}
 viewRoot.addEventListener('click',async event=>{
   const action=event.target.closest('[data-action]')?.dataset.action;
   if(action){
@@ -114,6 +121,7 @@ viewRoot.addEventListener('click',async event=>{
     else if(action==='new-script')notify('Neues Skript wurde angelegt');
     else if(action==='save')await saveSettings();
     else if(action==='import')await startApifyImport();
+    else if(action==='transcript')await requestTranscript();
     else if(action==='add-competitor')notify('Wettbewerber kann jetzt hinzugefügt werden');
     else if(action==='options')notify('Weitere Optionen geöffnet');
     return;

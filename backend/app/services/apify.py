@@ -103,6 +103,7 @@ def upsert_item(session: Session, item: dict[str, Any]) -> Reel:
         )
 
     reel.description = str(value_from(item, "caption", "text", default=""))
+    reel.transcript = str(value_from(item, "transcript", "videoTranscript", "textTranscript", default="") or "")
     reel.status = "online"
     reel.source_handle = f"@{handle}" if handle != "unknown" else "@instagram"
     reel.source_url = value_from(item, "url", "postUrl", "inputUrl")
