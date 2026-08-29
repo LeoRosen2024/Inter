@@ -148,7 +148,10 @@ def process_sync_job(job_id: str) -> None:
                 return
             actor_input = dict(job.input_payload)
             if not actor_input:
-                actor_input = {"directUrls": [job.source_url], "resultsLimit": job.requested_limit}
+                actor_input = {"username": [job.source_url], "resultsLimit": job.requested_limit}
+            elif "directUrls" in actor_input and "username" not in actor_input:
+                # The official actor accepts reel URLs in its required `username` array.
+                actor_input["username"] = actor_input.pop("directUrls")
             run = client.actor(job.actor_id).call(run_input=actor_input)
             if run is None:
                 raise RuntimeError("Apify Actor did not return a run")

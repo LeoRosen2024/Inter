@@ -76,6 +76,7 @@ services:
       - media-data:/data/media
     networks:
       - backend
+      - egress
 
   web:
     container_name: inter-web
@@ -99,3 +100,4 @@ networks:
   edge:
   backend:
     internal: true
+  egress:
