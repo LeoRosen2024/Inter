@@ -97,7 +97,14 @@ async function startApifyImport(){
     const config=await api.getApifyConfiguration();
     if(!config.configured){notify('Apify ist vorbereitet – Token und Actor ID fehlen noch');return}
     const sourceUrl=window.prompt('Instagram-Profil-URL für den Import:');if(!sourceUrl)return;
-    const job=await api.createApifyImport({source_url:sourceUrl,limit:20});notify(`Import gestartet: ${job.status}`)
+    const job=await api.createApifyImport({source_url:sourceUrl,limit:20});notify('Import gestartet – die letzten 20 Reels werden geladen …');
+    for(let attempt=0;attempt<36;attempt++){
+      await new Promise(resolve=>setTimeout(resolve,5000));
+      const current=await api.getImport(job.id);
+      if(current.status==='succeeded'){await hydrateBackend();showView('trends');notify(`${current.result_count||0} Reels des Wettbewerbers wurden importiert`);return}
+      if(current.status==='failed'){notify('Apify-Import fehlgeschlagen – Details stehen im Backend');return}
+    }
+    notify('Import läuft länger als erwartet – Liste wird nach Abschluss aktualisiert')
   }catch{notify('Apify-Import konnte nicht gestartet werden')}
 }
 viewRoot.addEventListener('click',async event=>{

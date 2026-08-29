@@ -158,13 +158,28 @@ def process_sync_job(job_id: str) -> None:
 
             run_id = str(get_run_value(run, "id", "id"))
             dataset_id = str(get_run_value(run, "defaultDatasetId", "default_dataset_id"))
+            items = list(client.dataset(dataset_id).iterate_items())
+
+            # A direct reel URL identifies the competitor. For a competitor import,
+            # follow up with that profile so the requested 20 latest reels are loaded.
+            if len(items) == 1 and job.requested_limit > 1:
+                owner = value_from(items[0], "ownerUsername", "username", "owner_username")
+                if owner:
+                    profile_run = client.actor(job.actor_id).call(
+                        run_input={"username": [str(owner)], "resultsLimit": job.requested_limit}
+                    )
+                    if profile_run is not None:
+                        run_id = str(get_run_value(profile_run, "id", "id"))
+                        dataset_id = str(get_run_value(profile_run, "defaultDatasetId", "default_dataset_id"))
+                        items = list(client.dataset(dataset_id).iterate_items())
+
             job.run_id = run_id
             job.dataset_id = dataset_id
             job.updated_at = utcnow()
             session.add(job)
             session.commit()
 
-            items = list(client.dataset(dataset_id).iterate_items())[: job.requested_limit]
+            items = items[: job.requested_limit]
             for item in items:
                 upsert_item(session, dict(item))
 
