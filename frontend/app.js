@@ -30,6 +30,7 @@ async function openScriptForReel(reelId,title){
   if(apiConnected&&reelId){try{activeReelRecord=await api.getReel(reelId);reelRecordCache.set(reelId,activeReelRecord)}catch{notify('Reel konnte nicht geladen werden');return}}
   activeScriptRecord=activeReelRecord?.script||null;
   dashboardView.hidden=true;viewRoot.hidden=false;viewRoot.innerHTML=scriptWorkspaceTemplate();
+  const scriptTitle=viewRoot.querySelector('.script-workspace-head h1');if(scriptTitle)scriptTitle.textContent=activeReelRecord?.title||title;const hookCopy=viewRoot.querySelector('[data-script-block=hook] .saved-copy');if(hookCopy)hookCopy.textContent=activeReelRecord?.transcript||activeReelRecord?.description||'Transcript wird über die Schaltfläche im Reel-Detail geladen.';
   document.querySelectorAll('.nav-item').forEach(link=>link.classList.toggle('active',link.dataset.view==='scripts'));
   history.replaceState(null,'','#scripts');toggleMenu(false);
 }
