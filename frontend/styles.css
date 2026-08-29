@@ -81,3 +81,5 @@ html,body{width:100%;min-height:100%}.app,.app>main,.cards,.view-root,.page-view
 @media(max-width:760px){.brand strong,.nav-item{font-size:18px}.page-actions{gap:10px}.reels-page .table-row{min-height:86px}.script-workspace-head h1{font-size:28.5px}.source-cover strong{font-size:63px}.source-cover b{font-size:18px}}
 
 .transcript-button{width:100%;margin-top:12px;padding:10px 12px;border:1px solid #d9dae0;border-radius:5px;background:#30323a;color:#fff;font-size:12px;font-weight:700}.transcript-button:hover{background:#4a4c56}.detail-transcript{margin-top:10px;padding:10px 12px;border:1px solid #e1e2e7;border-radius:5px;background:#fafafe}.detail-transcript strong{font-size:12px}.detail-transcript p{margin:6px 0 0;color:#5f616b;font-size:11px;line-height:1.5;white-space:pre-wrap}
+
+.source-reel-image{display:block;width:100%;height:245px;object-fit:cover;border-radius:5px;background:#16171b}
