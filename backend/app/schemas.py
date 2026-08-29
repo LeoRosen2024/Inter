@@ -151,7 +151,7 @@ class AppSettingUpdate(ApiModel):
 
 class ImportCreate(ApiModel):
     source_url: str = Field(min_length=8, max_length=1000)
-    limit: int = Field(default=20, ge=1, le=100)
+    limit: int = Field(default=20, ge=1, le=20)
     actor_input: dict[str, Any] = Field(default_factory=dict)
 
     @field_validator("source_url")

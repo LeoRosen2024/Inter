@@ -96,7 +96,7 @@ async function startApifyImport(){
   try{
     const config=await api.getApifyConfiguration();
     if(!config.configured){notify('Apify ist vorbereitet – Token und Actor ID fehlen noch');return}
-    const sourceUrl=window.prompt('Instagram-Profil-URL für den Import:');if(!sourceUrl)return;
+    const sourceUrl=window.prompt('Instagram-Profil-URL oder Reel-Link (Profil-URL spart einen zusätzlichen Apify-Lauf):');if(!sourceUrl)return;
     const job=await api.createApifyImport({source_url:sourceUrl,limit:20});notify('Import gestartet – die letzten 20 Reels werden geladen …');
     for(let attempt=0;attempt<36;attempt++){
       await new Promise(resolve=>setTimeout(resolve,5000));

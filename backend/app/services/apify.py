@@ -1,4 +1,5 @@
 import hashlib
+import re
 from datetime import datetime
 from typing import Any
 
@@ -46,6 +47,11 @@ def stable_external_id(item: dict[str, Any]) -> str:
         return str(external_id)
     source = str(value_from(item, "url", "postUrl", "videoUrl", default=item))
     return hashlib.sha256(source.encode("utf-8")).hexdigest()[:40]
+
+
+def instagram_shortcode(url: str) -> str | None:
+    match = re.search(r"/(?:reel|reels|p)/([A-Za-z0-9_-]+)", url)
+    return match.group(1) if match else None
 
 
 def normalized_title(item: dict[str, Any]) -> str:
@@ -146,12 +152,26 @@ def process_sync_job(job_id: str) -> None:
             job = session.get(SyncJob, job_id)
             if job is None:
                 return
+            requested_limit = min(max(job.requested_limit, 1), 20)
             actor_input = dict(job.input_payload)
             if not actor_input:
-                actor_input = {"username": [job.source_url], "resultsLimit": job.requested_limit}
+                # Reuse a previously discovered owner when importing the same Reel again.
+                shortcode = instagram_shortcode(job.source_url)
+                owner = None
+                if shortcode:
+                    known = session.exec(
+                        select(Reel).where(Reel.source_url.contains(shortcode))
+                    ).first()
+                    if known and known.profile_id:
+                        owner_profile = session.get(SocialProfile, known.profile_id)
+                        owner = owner_profile.handle if owner_profile else None
+                actor_input = {"username": [owner or job.source_url], "resultsLimit": requested_limit}
             elif "directUrls" in actor_input and "username" not in actor_input:
                 # The official actor accepts reel URLs in its required `username` array.
                 actor_input["username"] = actor_input.pop("directUrls")
+            actor_input["resultsLimit"] = min(int(actor_input.get("resultsLimit", requested_limit)), requested_limit)
+            actor_input.setdefault("includeTranscript", False)
+            actor_input.setdefault("includeDownloadedVideo", False)
             run = client.actor(job.actor_id).call(run_input=actor_input)
             if run is None:
                 raise RuntimeError("Apify Actor did not return a run")
@@ -162,11 +182,11 @@ def process_sync_job(job_id: str) -> None:
 
             # A direct reel URL identifies the competitor. For a competitor import,
             # follow up with that profile so the requested 20 latest reels are loaded.
-            if len(items) == 1 and job.requested_limit > 1:
+            if len(items) == 1 and requested_limit > 1:
                 owner = value_from(items[0], "ownerUsername", "username", "owner_username")
                 if owner:
                     profile_run = client.actor(job.actor_id).call(
-                        run_input={"username": [str(owner)], "resultsLimit": job.requested_limit}
+                        run_input={"username": [str(owner)], "resultsLimit": requested_limit}
                     )
                     if profile_run is not None:
                         run_id = str(get_run_value(profile_run, "id", "id"))
@@ -179,7 +199,7 @@ def process_sync_job(job_id: str) -> None:
             session.add(job)
             session.commit()
 
-            items = items[: job.requested_limit]
+            items = items[:requested_limit]
             for item in items:
                 upsert_item(session, dict(item))
 
